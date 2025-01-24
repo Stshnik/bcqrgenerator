@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barcode & QR Code Generator</title>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background: #1c1c1e;
+            color: #f2f2f7;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: #f2f2f7;
+        }
+        .container {
+            background: #2c2c2e;
+            border-radius: 12px;
+            border: 1px solid #3a3a3c;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            width: 95%;
+            max-width: 400px;
+            margin-top: 15px;
+            box-sizing: border-box;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 0; /* Убираем ненужные отступы */
+            font-size: 16px;
+            background: #3a3a3c;
+            color: #f2f2f7;
+            border: 1px solid #545456;
+            border-radius: 6px;
+            box-sizing: border-box; /* Чтобы элементы не выходили за рамки */
+        }
+        input::placeholder {
+            color: #8e8e93;
+        }
+        button {
+            margin: 5px;
+            padding: 8px 12px;
+            font-size: 14px;
+            color: #fff;
+            background: #8e44ad; /* Dark purple */
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        button:hover {
+            background: #732d91; /* Slightly darker purple */
+        }
+        .download-btn {
+            margin-top: 5px;
+            padding: 6px 10px;
+            font-size: 14px;
+            background: #e84393; /* Dark pink */
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .download-btn:hover {
+            background: #c0396d; /* Slightly darker pink */
+        }
+        .download-btn i {
+            font-size: 18px;
+        }
+        canvas, svg {
+            margin-top: 15px;
+            max-width: 100%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h2 {
+            font-size: 1.2em;
+            color: #f2f2f7;
+        }
+        .error-message {
+            color: #ff3b30;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+		.footer {
+			line-height: 4px;
+			a:link {color:#ffffff}
+			a:visited {color:#ffffff}
+		}
+    </style>
+</head>
+<body>
+    <h1>Barcode & QR Code Generator</h1>
+    <div class="container">
+        <input type="text" id="inputData" placeholder="Введите данные..." />
+        <br>
+        <button onclick="generateBarcode()">Штрихкод</button>
+        <button onclick="generateQRCode()">QR-код</button>
+        <p id="errorMessage" class="error-message"></p>
+    </div>
+    <div class="container">
+        <h2>Штрихкод:</h2>
+        <svg id="barcode"></svg>
+        <button class="download-btn" onclick="downloadBarcode()"><i class="fas fa-download"></i></button>
+    </div>
+    <div class="container">
+        <h2>QR-код:</h2>
+        <canvas id="qrcode"></canvas>
+        <button class="download-btn" onclick="downloadQRCode()"><i class="fas fa-download"></i></button>
+    </div>
+	<div class="footer">
+		<h3>by Sergey Sitishnik</h3>
+		<a href="https://t.me/sitishnik"><h3>TG @sitishnik</h3></a>
+    </div>
+    <script>
+        function showError(message) {
+            const errorMessageElement = document.getElementById('errorMessage');
+            errorMessageElement.textContent = message;
+        }
+
+        function clearError() {
+            const errorMessageElement = document.getElementById('errorMessage');
+            errorMessageElement.textContent = '';
+        }
+
+        function generateBarcode() {
+            const data = document.getElementById('inputData').value;
+            const barcodeElement = document.getElementById('barcode');
+            if (data) {
+                clearError();
+                JsBarcode(barcodeElement, data, {
+                    format: "CODE128",
+                    lineColor: "#000", // Black lines for better visibility
+                    background: "#fff", // White background
+                    width: 2,
+                    height: 50,
+                    displayValue: true
+                });
+            } else {
+                showError("Введите данные для генерации штрихкода.");
+            }
+        }
+
+        function generateQRCode() {
+            const data = document.getElementById('inputData').value;
+            const qrCodeElement = document.getElementById('qrcode');
+            if (data) {
+                clearError();
+                QRCode.toCanvas(qrCodeElement, data, {
+                    width: 180,
+                    margin: 1,
+                    color: {
+                        dark: "#fff", // White modules
+                        light: "#1c1c1e" // Dark background
+                    }
+                }, function (error) {
+                    if (error) {
+                        showError("Произошла ошибка при генерации QR-кода.");
+                        console.error(error);
+                    }
+                });
+            } else {
+                showError("Введите данные для генерации QR-кода.");
+            }
+        }
+
+        function downloadBarcode() {
+            const svg = document.getElementById('barcode');
+            const inputData = document.getElementById('inputData').value;
+            if (svg.children.length > 0 && inputData) {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const svgData = new XMLSerializer().serializeToString(svg);
+                const img = new Image();
+                const svgBlob = new Blob([svgData], { type: 'image/svg+xml' });
+                const svgUrl = URL.createObjectURL(svgBlob);
+                img.onload = function () {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+                    const url = canvas.toDataURL('image/png');
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `${inputData}-barcode.png`;
+                    link.click();
+                    URL.revokeObjectURL(svgUrl);
+                };
+                img.src = svgUrl;
+            } else {
+                showError("Сначала сгенерируйте штрихкод для скачивания.");
+            }
+        }
+
+        function downloadQRCode() {
+            const canvas = document.getElementById('qrcode');
+            const inputData = document.getElementById('inputData').value;
+            if (canvas && canvas.getContext && inputData) {
+                const url = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `${inputData}-qrcode.png`;
+                link.click();
+            } else {
+                showError("Сначала сгенерируйте QR-код для скачивания.");
+            }
+        }
+    </script>
+</body>
+</html>
