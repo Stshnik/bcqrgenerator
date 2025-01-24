@@ -31,7 +31,7 @@
             border-radius: 12px;
             border: 1px solid #3a3a3c;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-            padding: 20px;
+            padding: 10px;
             width: 95%;
             max-width: 400px;
             margin-top: 15px;
@@ -117,18 +117,18 @@
         <p id="errorMessage" class="error-message"></p>
     </div>
     <div class="container" id="barcodeContainer" style="display:none;">
-        <h2>Штрихкод:</h2>
+        <h3>Штрихкод:</h3>
         <svg id="barcode"></svg>
         <button class="download-btn" onclick="downloadBarcode()"><i class="fas fa-download"></i> Скачать</button>
     </div>
     <div class="container" id="qrCodeContainer" style="display:none;">
-        <h2>QR-код:</h2>
+        <h3>QR-код:</h3>
         <canvas id="qrcode"></canvas>
         <button class="download-btn" onclick="downloadQRCode()"><i class="fas fa-download"></i> Скачать</button>
     </div>
     <div class="footer">
-        <h3>by Sergey Sitishnik</h3>
-        <a href="https://t.me/sitishnik"><h3>TG @sitishnik</h3></a>
+        <h4>by Sergey Sitishnik</h4>
+        <a href="https://t.me/sitishnik"><h4>TG @sitishnik</h4></a>
     </div>
     <script>
         function showError(message) {
