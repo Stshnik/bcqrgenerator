@@ -28,13 +28,13 @@
         }
         .container {
             background: #2c2c2e;
-            border-radius: 12px;
+            border-radius: 10px;
             border: 1px solid #3a3a3c;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-            padding: 10px;
+            padding: 8px;
             width: 95%;
             max-width: 400px;
-            margin-top: 15px;
+            margin-top: 10px;
             box-sizing: border-box;
         }
         input {
@@ -83,7 +83,7 @@
             font-size: 16px;
         }
         canvas, svg {
-            margin-top: 15px;
+            margin-top: 10px;
             max-width: 100%;
             display: block;
             margin-left: auto;
@@ -117,12 +117,12 @@
         <p id="errorMessage" class="error-message"></p>
     </div>
     <div class="container" id="barcodeContainer" style="display:none;">
-        <h3>Штрихкод:</h3>
+        <h2>Штрихкод:</h2>
         <svg id="barcode"></svg>
         <button class="download-btn" onclick="downloadBarcode()"><i class="fas fa-download"></i> Скачать</button>
     </div>
     <div class="container" id="qrCodeContainer" style="display:none;">
-        <h3>QR-код:</h3>
+        <h2>QR-код:</h2>
         <canvas id="qrcode"></canvas>
         <button class="download-btn" onclick="downloadQRCode()"><i class="fas fa-download"></i> Скачать</button>
     </div>
