@@ -92,6 +92,8 @@
         h2 {
             font-size: 1.2em;
             color: #f2f2f7;
+            margin-top: 3px;
+            margin-bottom: 3px;
         }
         .error-message {
             color: #ff3b30;
@@ -106,7 +108,7 @@
     </style>
 </head>
 <body>
-    <h1>Barcode & QR Code Generator</h1>
+    <h2>Barcode & QR Code Generator</h2>
     <div class="container">
         <input type="text" id="inputData" placeholder="Введите данные..." onkeydown="checkEnter(event)" />
         <br>
@@ -154,8 +156,8 @@
                     format: "CODE128",
                     lineColor: "#000", 
                     background: "#fff",
-                    width: 2,
-                    height: 50,
+                    width: 4,  //Ширина линии шк
+                    height: 150,  //Высота штрихкода
                     displayValue: true
                 });
             } else {
@@ -176,7 +178,7 @@
                 barcodeContainer.style.display = 'none';
 
                 QRCode.toCanvas(qrCodeElement, data, {
-                    width: 180,
+                    width: 360,
                     margin: 1,
                     color: {
                         dark: "#fff",
